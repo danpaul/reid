@@ -1,6 +1,6 @@
 ## ABOUT
 
-Crawler and its sister class requester are simple thing classes to help structure web scraping tasks.
+Crawler and its sister class requester are simple classes to help structure web scraping tasks.
 
 Typical usage for a single-page scrape involves defining array of xpath or css Nokogiri selectors and one or more first-class functions (in the form of lambda(s) and/or proc(s)). Requester than iterates the array, selecting the element and passing them to your function. Your function should take two arguments. One is the element selected by the Nokogiri slecector, the second is a hash where you can save whatever you're scraping from that particular selection (this record is returned to you after the scrape).
 
@@ -96,7 +96,7 @@ Returns a hash.
 	
 Each array within the 2D array should have three items (the first dimension of the 'x' specifies the element of operations. You can pass multiple operations over the same page):
 * `operations[x][0]` is an xpath or css selector.
-* `operations[x][1]` is a proc or lambda. `operations[x][1] is passed the element(s) returned when `operations[x][0]` is applied to the Nokogiri document for the passed url. The proc or lambda passed as the second element (`operations[x][1]`) should accept two arguments. The first argument represents the element(s) that will be returned when `operations[x][0]` is applied to the Nokogiri document. The second argument is a hash. This is the hash that is ultimately returned by the scrape_page method and should be used to store any elements from the selection that you want returned/persisted.
+* `operations[x][1]` is a proc or lambda. `operations[x][1]` is passed the element(s) returned when `operations[x][0]` is applied to the Nokogiri document for the passed url. The proc or lambda passed as the second element (`operations[x][1]`) should accept two arguments. The first argument represents the element(s) that will be returned when `operations[x][0]` is applied to the Nokogiri document. The second argument is a hash. This is the hash that is ultimately returned by the scrape_page method and should be used to store any elements from the selection that you want returned/persisted.
 * `operations[x][2]` is a symbol flag which can be either `:css` or `:xpath` depending on whether `operations[x][0]` is a css or xpath selector.
 
 If there are multiple arrays contained in the 2D array, they will all be evaluated in order. 
@@ -119,7 +119,6 @@ Takes an object, 2D array, and a proc/lambda
 
 ## Requester documentation
 
-=begin
 ################################################################################
 
 							ABOUT
