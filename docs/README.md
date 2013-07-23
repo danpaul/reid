@@ -1,16 +1,16 @@
 ## About
 
-Crawler and its sister class requester are simple classes to help structure web scraping tasks.
+Reid and its sister class requester are simple classes to help structure web scraping tasks.
 
 Typical usage for a single-page scrape involves defining an array of xpath or css Nokogiri selectors and one or more first-class functions (in the form of lambda(s) and/or proc(s)). Requester then iterates the array, selecting the elements from the Nokogiri document and passing them to your function. Your function should take two arguments. The first is the element selected by the Nokogiri slecector, the second is a hash where you can save whatever data you're scraping from that particular selection (this record is returned by the method).
 
 Multipage scrapes include require you to build a page iterator and allow you to pass a method to persist your record (see specifications and example below.)
 
-Crawler uses Requester which can be used to throttle requests, backoff and log request errors. See Requester documentaiton for details
+Reid uses Requester which can be used to throttle requests, backoff and log request errors. See Requester documentaiton for details
 
 ## Example usage
 ```ruby
-require 'crawler.rb'
+require 'reid.rb'
 
 requester_options = {
 	:min_request_interval => 1,
@@ -18,7 +18,7 @@ requester_options = {
 	#...
 }
 
-crawler = Crawler.new(requester_options)
+reid = Reid.new(requester_options)
 
 ##############################
 # 	Single page scrape
@@ -37,7 +37,7 @@ operations = [
 	]
 ]
 
- record = crawler.scrape_page('http://example.iana.org/', operations)
+ record = reid.scrape_page('http://example.iana.org/', operations)
 
  p record[:title] #=> "Example Domain"
 
@@ -76,7 +76,7 @@ persist_method = lambda do |record|
 	p 'I should be storing ' + record[:title]
 end
 
-crawler.crawl(Url_iter.new, operations, persist_method)
+reid.crawl(Url_iter.new, operations, persist_method)
 
 #=> "I should be storing Example Domain"
 #=> "I should be storing Iana..."
@@ -84,11 +84,11 @@ crawler.crawl(Url_iter.new, operations, persist_method)
 
 ## Installation
 
-`gem install crawler`
+`gem install reid`
 
 ## Intialization
 
-Crawler takes an options hash for initializing a Requester object. See Requester doucmentation for details. Requester handles backing off if there are request errors. Requester has default options so you aren't requried to specify anthing.
+Reid takes an options hash for initializing a Requester object. See Requester doucmentation for details. Requester handles backing off if there are request errors. Requester has default options so you aren't requried to specify anthing.
 
 ## Method reference
 
@@ -109,13 +109,13 @@ The second argument passed to the the proc or lambda is the same hash so everyth
 
 #### `scrape_doc(doc, operations)`
 
-Same as scrape_page except it takes a Nokogiri doc instead of an url (in case you want to handle the page request outside of Crawler).
+Same as scrape_page except it takes a Nokogiri doc instead of an url (in case you want to handle the page request outside of Reid).
 
 #### `crawl(url_crawler, operations, store_function)`
 
 Takes an object, 2D array, and a proc/lambda
 
-`url_cralwer` must be an object that has a next method that accepts one argument. `.next` should return the next url to crawl or Nil once the crawl is complete. `.next` will be passed the Nokogiri document from the previous request or nil if it is the first request. This allows you to check the Nokogiri document from your previous request in case it is relevant to determining the next url which will be returned or to determine if it is the end of the crawl.
+`url_crawler` must be an object that has a next method that accepts one argument. `.next` should return the next url to crawl or Nil once the crawl is complete. `.next` will be passed the Nokogiri document from the previous request or nil if it is the first request. This allows you to check the Nokogiri document from your previous request in case it is relevant to determining the next url which will be returned or to determine if it is the end of the crawl.
 
 `operations` is a 2D array following the specification defined in the `scrape_page` method documentation. These methods are applied to each page.
 

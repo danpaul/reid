@@ -3,7 +3,7 @@ require 'open-uri'
 
 require './requester.rb'
 
-class Crawler
+class Reid
 	def initialize(requester_options = {})
 		@requester = Requester.new(requester_options)
 	end
