@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
-  s.name        = 'Reid'
-  s.version     = '0.0.6'
+  s.name        = 'reid'
+  s.version     = '0.0.7'
   s.date        = '2013-07-23'
   s.summary     = 'Reid is a gem to help structure web scraping.'
   s.authors     = ['Dan Breczinski']
