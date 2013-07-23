@@ -1,4 +1,4 @@
-## ABOUT
+## About
 
 Crawler and its sister class requester are simple classes to help structure web scraping tasks.
 
