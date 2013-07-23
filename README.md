@@ -10,7 +10,7 @@ Crawler uses Requester which can be used to throttle requests, backoff and log r
 
 ## Example usage
 ```ruby
-require './crawler.rb'
+require '.crawler.rb'
 
 requester_options = {
 	:min_request_interval => 1,
@@ -81,6 +81,10 @@ crawler.crawl(Url_iter.new, operations, persist_method)
 #=> "I should be storing Example Domain"
 #=> "I should be storing Iana..."
 ```
+
+## Installation
+
+`gem install crawler`
 
 ## Intialization
 
