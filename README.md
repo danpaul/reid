@@ -187,7 +187,7 @@ Requester takes an optional options hash. Below are the options and their
   
 	:max_backoff_time
 		Set to either number of seconds or false. Default is false.
-		If false, there is not maximum backoff time. Requester will continue
+		If false, there is no maximum backoff time. Requester will continue
 			at an exponentially diminishing rate.
 		If set to a number, Requester will raise an error once it reaches
 			that number of seconds. Note, this is the number since the last
