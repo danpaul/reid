@@ -2,9 +2,9 @@
 
 Crawler and its sister class requester are simple classes to help structure web scraping tasks.
 
-Typical usage for a single-page scrape involves defining array of xpath or css Nokogiri selectors and one or more first-class functions (in the form of lambda(s) and/or proc(s)). Requester than iterates the array, selecting the element and passing them to your function. Your function should take two arguments. One is the element selected by the Nokogiri slecector, the second is a hash where you can save whatever you're scraping from that particular selection (this record is returned to you after the scrape).
+Typical usage for a single-page scrape involves defining an array of xpath or css Nokogiri selectors and one or more first-class functions (in the form of lambda(s) and/or proc(s)). Requester then iterates the array, selecting the elements from the Nokogiri document and passing them to your function. Your function should take two arguments. The first is the element selected by the Nokogiri slecector, the second is a hash where you can save whatever data you're scraping from that particular selection (this record is returned by the method).
 
-Multipage scrapes include require you to build a page iterator and allow you to pass a persist method to... persist your record (see specifications and example below.)
+Multipage scrapes include require you to build a page iterator and allow you to pass a method to persist your record (see specifications and example below.)
 
 Crawler uses Requester which can be used to throttle requests, backoff and log request errors. See Requester documentaiton for details
 
@@ -98,9 +98,9 @@ Takes the url you want to scrape and a 2D array.
 
 Returns a hash.
 	
-Each array within the 2D array should have three items (the first dimension of the 'x' specifies the element of operations. You can pass multiple operations over the same page):
+Each array within the 2D array should have three items (the first dimension of the 'x' specifies the element of operations. You can execute multiple operations on the same page):
 * `operations[x][0]` is an xpath or css selector.
-* `operations[x][1]` is a proc or lambda. `operations[x][1]` is passed the element(s) returned when `operations[x][0]` is applied to the Nokogiri document for the passed url. The proc or lambda passed as the second element (`operations[x][1]`) should accept two arguments. The first argument represents the element(s) that will be returned when `operations[x][0]` is applied to the Nokogiri document. The second argument is a hash. This is the hash that is ultimately returned by the scrape_page method and should be used to store any elements from the selection that you want returned/persisted.
+* `operations[x][1]` is a proc or lambda. `operations[x][1]` is passed the element(s) returned when `operations[x][0]` is applied to the Nokogiri document for the passed url. The proc or lambda passed as the second element (`operations[x][1]`) should accept two arguments. The first argument represents the element(s) that will be returned when `operations[x][0]` is applied to the Nokogiri document. The second argument is a hash. This is the hash that is ultimately returned by the scrape_page method and should be used to store any elements from the selection that you want returned from the method.
 * `operations[x][2]` is a symbol flag which can be either `:css` or `:xpath` depending on whether `operations[x][0]` is a css or xpath selector.
 
 If there are multiple arrays contained in the 2D array, they will all be evaluated in order. 
@@ -109,17 +109,17 @@ The second argument passed to the the proc or lambda is the same hash so everyth
 
 #### `scrape_doc(doc, operations)`
 
-Same as scrape_page except it takes a Nokogiri doc instead of an url. (In case you want to handle the page request outside of Crawler)
+Same as scrape_page except it takes a Nokogiri doc instead of an url (in case you want to handle the page request outside of Crawler).
 
 #### `crawl(url_crawler, operations, store_function)`
 
 Takes an object, 2D array, and a proc/lambda
 
-`url_cralwer` must be an object that has a next method that accepts one argument. Next should return the next url to crawl or Nil once the crawl is complete. Next will be passed the Nokogiri document from the previous request or nil if it is the first request. This allows you to check the Nokogiri document from your previous request in case it is relevant to determining the next url which will be returned.
+`url_cralwer` must be an object that has a next method that accepts one argument. `.next` should return the next url to crawl or Nil once the crawl is complete. `.next` will be passed the Nokogiri document from the previous request or nil if it is the first request. This allows you to check the Nokogiri document from your previous request in case it is relevant to determining the next url which will be returned or to determine if it is the end of the crawl.
 
 `operations` is a 2D array following the specification defined in the `scrape_page` method documentation. These methods are applied to each page.
 
-`store_function` is a proc or lambda which receiveds the hash generated by the proc/lambdas in your operations array. This is typically used for checking and storing scraped data.
+`store_function` is a proc or lambda which receiveds the hash generated by `operations`. This is typically used for checking and storing scraped data.
 
 ## Requester documentation
 
@@ -132,14 +132,6 @@ Takes an object, 2D array, and a proc/lambda
  Requester is a a small class to use in conjunction with Nokogiri to perform
 	request dampering and exponential backoffs when Nokogiri runs into an error
 	when making a request.
-
-################################################################################
-
-							Dependencies
-
-################################################################################
-
-Requester requires Nokogiri and open-uri
 
 ################################################################################
 
@@ -176,8 +168,8 @@ Requester takes an optional options hash. Below are the options and their
 	:error_log
 		Set to either a MongoDB collection or false. Default is false.
 		If set to a collection, the time and error message for the Nokogiri
-			request error will be saved to this collection. (It is advisable
-			to use a capped collection)
+			request error will be saved to this collection. (You may want to
+			use a capped collection.)
 
 	:intitial_delay
 		Set to number.
