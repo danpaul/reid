@@ -1,5 +1,3 @@
 source 'https://rubygems.org'
 
 gemspec :path => './'
-
-gem 'nokogiri', '~>1.5'
