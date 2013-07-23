@@ -10,7 +10,7 @@ Reid uses Requester which can be used to throttle requests, backoff and log requ
 
 ## Example usage
 ```ruby
-require 'reid.rb'
+require 'reid'
 
 requester_options = {
 	:min_request_interval => 1,
