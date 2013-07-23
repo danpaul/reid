@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name        = 'Reid'
+  s.name        = 'reid'
   s.version     = '0.1.0'
   s.date        = '2013-07-23'
   s.description = 'Reid is a simple tool for crawling web pages and throttling requests'
